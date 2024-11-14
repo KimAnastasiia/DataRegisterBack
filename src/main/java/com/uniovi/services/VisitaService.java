@@ -1,5 +1,6 @@
 package com.uniovi.services;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +25,9 @@ public class VisitaService {
     public Optional<Visita> getVisitaById(Long id) {
         return visitaRepository.findById(id);
     }
-
+    public List<Visita> getVisitasBetweenDates(LocalDate startDate, LocalDate endDate) {
+        return visitaRepository.findByFechaBetween(startDate, endDate);
+    }
     // Create a new visita
     public Visita createVisita(Visita visita) {
         return visitaRepository.save(visita);

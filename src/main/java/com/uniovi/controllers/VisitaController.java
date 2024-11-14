@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 @RestController
@@ -20,7 +22,21 @@ public class VisitaController {
     public List<Visita> getAllVisitas() {
         return visitaService.getAllVisitas();
     }
+    @GetMapping("/fecha")
+    public ResponseEntity<List<Visita>> getVisitasBetweenDates(
+            @RequestParam("startDate") String startDateStr,
+            @RequestParam("endDate") String endDateStr) {
+        
+        // Convert the string dates to LocalDate
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startDate = LocalDate.parse(startDateStr, formatter);
+        LocalDate endDate = LocalDate.parse(endDateStr, formatter);
 
+        // Get the list of visitas between the specified dates
+        List<Visita> visitas = visitaService.getVisitasBetweenDates(startDate, endDate);
+
+        return ResponseEntity.ok(visitas);
+    }
     // Get a visita by ID
     @GetMapping("/{id}")
     public ResponseEntity<Visita> getVisitaById(@PathVariable Long id) {
