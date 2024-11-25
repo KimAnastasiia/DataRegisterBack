@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.uniovi.entities.ActividadDifusion;
 
-public interface ActividadDifusionRepository extends JpaRepository<ActividadDifusion, Integer> {
+public interface ActividadDifusionRepository extends JpaRepository<ActividadDifusion, Long> {
 }
