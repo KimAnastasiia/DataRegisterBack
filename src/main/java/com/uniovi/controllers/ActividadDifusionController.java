@@ -38,13 +38,29 @@ public class ActividadDifusionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ActividadDifusion> updateActividad(@PathVariable Long id, @RequestBody ActividadDifusion actividad) {
-        ActividadDifusion existing = service.getActividadById(id);
-        existing.setFecha(actividad.getFecha());
-        existing.setNombre(actividad.getNombre());
-        existing.setParticipantes(actividad.getParticipantes());
-        return ResponseEntity.ok(service.saveActividad(existing));
+    public ResponseEntity<String> updateActividad(@PathVariable Long id, @RequestBody ActividadDifusion actividad) {
+        // Check if the ActividadDifusion exists
+    	try {
+    		  	ActividadDifusion existing = service.getActividadById(id);
+    		  	existing.setFecha(actividad.getFecha());
+    	        existing.setNombre(actividad.getNombre());
+    	        existing.setParticipantes(actividad.getParticipantes());
+    	        
+    	        // Save the updated entity
+    	        ActividadDifusion updated = service.saveActividad(existing);
+    	        
+    	        // Return a success message with 200 OK
+    	        return ResponseEntity.ok("Actividad with id " + id + " successfully updated.");
+    	}catch (Exception e) {
+      	  return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                  .body("Actividad with id " + id + " not found.");
+    	}
+      
+        
+
+       
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteActividad(@PathVariable Long id) {
