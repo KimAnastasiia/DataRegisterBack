@@ -1,6 +1,8 @@
 package com.uniovi.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,8 +47,27 @@ public class ActividadDifusionController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteActividad(@PathVariable Long id) {
-        service.deleteActividad(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> deleteActividad(@PathVariable Long id) {
+    	
+        	try {
+
+        		ActividadDifusion actividad = service.getActividadById(id);
+	            if (actividad !=null) {   
+	            	  service.deleteActividad(id); // Delete if found
+	                  return ResponseEntity.ok("Actividad with id " + id + " successfully deleted.");
+	              
+	            } 
+        	}catch (Exception e) {
+            	  return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                          .body("Actividad with id " + id + " not found.");
+            }
+        	
+    
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred while deleting the actividad.");
+       
+
     }
+
+
 }
