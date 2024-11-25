@@ -1,8 +1,12 @@
 package com.uniovi.services;
 
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +27,14 @@ public class VisitaService {
     // Get a visita by ID
     public Optional<Visita> getVisitaById(Long id) {
         return visitaRepository.findById(id);
+    }
+    /*
+    public List<Visita> getVisitasBetweenDates(LocalDate startDate, LocalDate endDate) {
+        return visitaRepository.findByFechaBetween(startDate, endDate);
+    }
+    */
+    public Page<Visita> getVisitasBetweenDates(LocalDate startDate, LocalDate endDate, Pageable pageable) {
+        return visitaRepository.findAllByFechaBetween(startDate, endDate, pageable);
     }
 
     // Create a new visita

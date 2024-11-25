@@ -1,12 +1,21 @@
 package com.uniovi.controllers;
 import com.uniovi.entities.Visita;
 import com.uniovi.services.VisitaService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 @RestController
 @RequestMapping("/api/visitas")  // Base URL for this controller
@@ -19,6 +28,46 @@ public class VisitaController {
     @GetMapping
     public List<Visita> getAllVisitas() {
         return visitaService.getAllVisitas();
+    }
+    /*
+    @GetMapping("/fecha")
+    public ResponseEntity<List<Visita>> getVisitasBetweenDates(
+            @RequestParam("startDate") String startDateStr,
+            @RequestParam("endDate") String endDateStr) {
+        
+        // Convert the string dates to LocalDate
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startDate = LocalDate.parse(startDateStr, formatter);
+        LocalDate endDate = LocalDate.parse(endDateStr, formatter);
+
+        // Get the list of visitas between the specified dates
+        List<Visita> visitas = visitaService.getVisitasBetweenDates(startDate, endDate);
+
+        return ResponseEntity.ok(visitas);
+    }
+    */
+    @GetMapping("/fecha")
+    public ResponseEntity<Map<String, Object>> getVisitasBetweenDates(
+            @RequestParam("startDate") String startDateStr,
+            @RequestParam("endDate") String endDateStr,
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "size", defaultValue = "5") int size) {
+
+        // Parse dates
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startDate = LocalDate.parse(startDateStr, formatter);
+        LocalDate endDate = LocalDate.parse(endDateStr, formatter);
+
+        // Retrieve data (assuming you have a service that supports pagination)
+        Pageable pageable = PageRequest.of(page - 1, size); // Page index is 0-based in Spring
+        Page<Visita> visitasPage = visitaService.getVisitasBetweenDates(startDate, endDate, pageable);
+
+        // Prepare the response
+        Map<String, Object> response = new HashMap<>();
+        response.put("items", visitasPage.getContent()); // Current page data
+        response.put("total", visitasPage.getTotalElements()); // Total number of items
+
+        return ResponseEntity.ok(response);
     }
 
     // Get a visita by ID
