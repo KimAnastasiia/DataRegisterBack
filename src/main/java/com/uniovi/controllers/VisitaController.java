@@ -29,23 +29,7 @@ public class VisitaController {
     public List<Visita> getAllVisitas() {
         return visitaService.getAllVisitas();
     }
-    /*
-    @GetMapping("/fecha")
-    public ResponseEntity<List<Visita>> getVisitasBetweenDates(
-            @RequestParam("startDate") String startDateStr,
-            @RequestParam("endDate") String endDateStr) {
-        
-        // Convert the string dates to LocalDate
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate startDate = LocalDate.parse(startDateStr, formatter);
-        LocalDate endDate = LocalDate.parse(endDateStr, formatter);
 
-        // Get the list of visitas between the specified dates
-        List<Visita> visitas = visitaService.getVisitasBetweenDates(startDate, endDate);
-
-        return ResponseEntity.ok(visitas);
-    }
-    */
     @GetMapping("/fecha")
     public ResponseEntity<Map<String, Object>> getVisitasBetweenDates(
             @RequestParam("startDate") String startDateStr,
