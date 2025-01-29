@@ -44,12 +44,36 @@ public class VisitaController {
 
         // Retrieve data (assuming you have a service that supports pagination)
         Pageable pageable = PageRequest.of(page - 1, size); // Page index is 0-based in Spring
-        Page<Visita> visitasPage = visitaService.getVisitasBetweenDates(startDate, endDate, pageable);
+        Page<Visita> visitas = visitaService.getVisitasBetweenDates(startDate, endDate, pageable);
 
         // Prepare the response
         Map<String, Object> response = new HashMap<>();
-        response.put("items", visitasPage.getContent()); // Current page data
-        response.put("total", visitasPage.getTotalElements()); // Total number of items
+        response.put("items", visitas.getContent()); // Current page data
+        response.put("total", visitas.getTotalElements()); // Total number of items
+
+        return ResponseEntity.ok(response);
+    }
+    @GetMapping("/indice")
+    public ResponseEntity<Map<String, Object>> getStatisticsBetweenDates(
+            @RequestParam("startDate") String startDateStr,
+            @RequestParam("endDate") String endDateStr) {
+
+        // Parse dates
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startDate = LocalDate.parse(startDateStr, formatter);
+        LocalDate endDate = LocalDate.parse(endDateStr, formatter);
+
+        // Calculate total participants and total visits
+        List<Visita> visitas = visitaService.getVisitasBetweenDates(startDate, endDate);
+        int totalParticipantes = visitas.stream()
+                                        .mapToInt(Visita::getParticipantes)
+                                        .sum();
+        long totalVisitas = visitas.size();
+
+        // Prepare the response
+        Map<String, Object> response = new HashMap<>();
+        response.put("totalParticipantes", totalParticipantes);
+        response.put("totalVisitas", totalVisitas);
 
         return ResponseEntity.ok(response);
     }

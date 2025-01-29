@@ -19,6 +19,6 @@ public interface VisitaRepository extends JpaRepository<Visita, Long> {
 	List<Visita> findByFechaBetween(LocalDate startDate, LocalDate endDate);
 	*/
 	Page<Visita> findAllByFechaBetween(LocalDate startDate, LocalDate endDate, Pageable pageable);
-
+	 List<Visita> findByFechaBetween(LocalDate startDate, LocalDate endDate);
 
 }

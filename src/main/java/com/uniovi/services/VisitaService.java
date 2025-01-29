@@ -36,6 +36,9 @@ public class VisitaService {
     public Page<Visita> getVisitasBetweenDates(LocalDate startDate, LocalDate endDate, Pageable pageable) {
         return visitaRepository.findAllByFechaBetween(startDate, endDate, pageable);
     }
+    public List<Visita> getVisitasBetweenDates(LocalDate startDate, LocalDate endDate) {
+        return visitaRepository.findByFechaBetween(startDate, endDate);
+    }
 
     // Create a new visita
     public Visita createVisita(Visita visita) {

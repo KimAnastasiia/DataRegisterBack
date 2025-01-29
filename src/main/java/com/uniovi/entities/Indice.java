@@ -27,12 +27,24 @@ public class Indice {
 			this.nombre = nombre;
 		}
 
+		public Indice() {
+			super();
+		}
+
 		public Indice(Integer id, String nombre, LocalDate fecha_de_inicio, LocalDate fecha_de_fin) {
 			super();
 			this.id = id;
 			this.nombre = nombre;
 			this.fecha_de_inicio = fecha_de_inicio;
 			this.fecha_de_fin = fecha_de_fin;
+		}
+
+		public Integer getId() {
+			return id;
+		}
+
+		public void setId(Integer id) {
+			this.id = id;
 		}
 
 		public LocalDate getFecha_de_inicio() {
