@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import com.uniovi.entities.ActividadDifusion;
 import com.uniovi.repositories.ActividadDifusionRepository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.time.LocalDate;
 @Service
 public class ActividadDifusionService {
@@ -29,7 +31,12 @@ public class ActividadDifusionService {
     public Page<ActividadDifusion> getActividadesBetweenDates(LocalDate startDate, LocalDate endDate, Pageable pageable) {
         return repository.findByFechaBetween(startDate, endDate, pageable);
     }
-
+    public Map<String, Long> getStatisticsBetweenDates(LocalDate startDate, LocalDate endDate) {
+        Map<String, Long> statistics = new HashMap<>();
+        statistics.put("totalActividades", repository.countByFechaBetween(startDate, endDate));
+        statistics.put("totalParticipantes", repository.sumParticipantesByFechaBetween(startDate, endDate));
+        return statistics;
+    }
     public ActividadDifusion saveActividad(ActividadDifusion actividad) {
         return repository.save(actividad);
     }

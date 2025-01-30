@@ -61,7 +61,22 @@ public class ActividadDifusionController {
     public ResponseEntity<ActividadDifusion> getActividadById(@PathVariable Long id) {
         return ResponseEntity.ok(service.getActividadById(id));
     }
+    @GetMapping("/indice")
+    
+    public ResponseEntity<Map<String, Long>> getStatisticsBetweenDates(
+            @RequestParam("startDate") String startDateStr,
+            @RequestParam("endDate") String endDateStr) {
 
+        // Parse dates
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startDate = LocalDate.parse(startDateStr, formatter);
+        LocalDate endDate = LocalDate.parse(endDateStr, formatter);
+
+        // Retrieve statistics
+        Map<String, Long> statistics = service.getStatisticsBetweenDates(startDate, endDate);
+
+        return ResponseEntity.ok(statistics);
+    }
     @PostMapping
     public ResponseEntity<ActividadDifusion> createActividad(@RequestBody ActividadDifusion actividad) {
         return ResponseEntity.ok(service.saveActividad(actividad));
