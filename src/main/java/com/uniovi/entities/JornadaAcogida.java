@@ -5,22 +5,23 @@ import jakarta.persistence.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
 @Table(name = "jornadas_acogida")
-class JornadaAcogida {
+public class JornadaAcogida {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private String fecha;
+    private LocalDate fecha;
     @Column(nullable = false)
     private Integer participantes;
     @Column(nullable = false)
     private Integer valoracion;
     
-	public JornadaAcogida(Long id, String fecha, Integer participantes, Integer valoracion) {
+	public JornadaAcogida(Long id, LocalDate fecha, Integer participantes, Integer valoracion) {
 		super();
 		this.id = id;
 		this.fecha = fecha;
@@ -40,11 +41,11 @@ class JornadaAcogida {
 		this.id = id;
 	}
 
-	public String getFecha() {
+	public LocalDate getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(String fecha) {
+	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
 	}
 
