@@ -1,4 +1,5 @@
 package com.uniovi.services;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +19,9 @@ public class ReunionesPATService {
 	    public List<ReunionesPAT> getAll() {
 	        return repository.findAll();
 	    }
-
+	    public Integer getTotalReuniones(LocalDate inicio, LocalDate fin) {
+	        return repository.getSumReuniones(inicio, fin);
+	    }
 	    public ReunionesPAT save(ReunionesPAT reunion) {
 	        return repository.save(reunion);
 	    }

@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.*;
 import com.uniovi.entities.ReunionesPAT;
 import com.uniovi.services.ReunionesPATService;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/reuniones-pat")
@@ -21,7 +23,13 @@ public class ReunionesPATController {
 	    public List<ReunionesPAT> getAll() {
 	        return service.getAll();
 	    }
-
+	    @GetMapping("/total-reuniones")
+	    public Map<String, Integer> getTotalReuniones(@RequestParam String inicio, @RequestParam String fin) {
+	        LocalDate fechaInicio = LocalDate.parse(inicio);
+	        LocalDate fechaFin = LocalDate.parse(fin);
+	        Integer total = service.getTotalReuniones(fechaInicio, fechaFin);
+	        return Map.of("total_reuniones", total != null ? total : 0);
+	    }
 	    @PostMapping
 	    public ReunionesPAT createReunion(@RequestBody ReunionesPAT reunion) {
 	        return service.save(reunion);
