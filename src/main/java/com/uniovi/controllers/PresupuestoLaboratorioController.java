@@ -1,5 +1,6 @@
 package com.uniovi.controllers;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uniovi.entities.PresupuestoLaboratorio;
@@ -27,7 +29,11 @@ public class PresupuestoLaboratorioController {
     public List<PresupuestoLaboratorio> getAll() {
         return service.getAll();
     }
-    
+    @GetMapping("/porcentaje-gasto")
+    public ResponseEntity<Double> calcularPorcentajeGasto(@RequestParam LocalDate fechaInicio, @RequestParam LocalDate fechaFin) {
+        Double porcentaje = service.calcularPorcentajeGastoEntreFechas(fechaInicio, fechaFin);
+        return ResponseEntity.ok(porcentaje);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<PresupuestoLaboratorio> getById(@PathVariable Long id) {
         Optional<PresupuestoLaboratorio> presupuesto = service.getById(id);

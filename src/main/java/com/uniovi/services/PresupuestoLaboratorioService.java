@@ -1,5 +1,6 @@
 package com.uniovi.services;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +12,8 @@ import com.uniovi.repositories.PresupuestoLaboratorioRepository;
 
 @Service
 public class PresupuestoLaboratorioService {
-	  @Autowired
+	
+	    @Autowired
 	    private PresupuestoLaboratorioRepository repository;
 
 	    public Optional<PresupuestoLaboratorio> getById(Long id) {
@@ -21,7 +23,15 @@ public class PresupuestoLaboratorioService {
 	    public List<PresupuestoLaboratorio> getAll() {
 	        return repository.findAll();
 	    }
-
+	    public Double calcularPorcentajeGastoEntreFechas(LocalDate fechaInicio, LocalDate fechaFin) {
+	        Double totalPresupuesto = repository.sumarPresupuestoTotalEntreFechas(fechaInicio, fechaFin);
+	        Double totalLaboratorio = repository.sumarPresupuestoLaboratoriosEntreFechas(fechaInicio, fechaFin);
+	        if (totalPresupuesto == null || totalPresupuesto == 0) {
+	            return 0.0;
+	        }
+	        return (totalLaboratorio / totalPresupuesto) * 100;
+	        
+	   }
 	    public PresupuestoLaboratorio create(PresupuestoLaboratorio presupuesto) {
 	        return repository.save(presupuesto);
 	    }
