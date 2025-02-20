@@ -26,6 +26,7 @@ public class JornadaAcogidaService {
 
     }
     public JornadaAcogida save(JornadaAcogida jornada) { return repository.save(jornada); }
+    
     public JornadaAcogida updateJornadaAcogida(Long id, JornadaAcogida jornadaAcogidaDetails) {
         Optional<JornadaAcogida> optionalJornada = repository.findById(id);
         

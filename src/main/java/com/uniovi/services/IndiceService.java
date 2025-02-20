@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Service
 public class IndiceService {
-	 @Autowired
+	    @Autowired
 	    private IndiceRepository indiceRepository;
 
 	    public List<Indice> getAllIndices() {

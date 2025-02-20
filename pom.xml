@@ -65,7 +65,17 @@
 		    <artifactId>mariadb-java-client</artifactId>
 		    <version>3.1.2</version> <!-- Check for the latest version -->
 		</dependency>
-		
+
+    	<dependency>
+    		<groupId>com.uniovi</groupId>
+    		<artifactId>Notaneitor-1</artifactId>
+    		<version>0.0.1-SNAPSHOT</version>
+    	</dependency>
+    	<dependency>
+    		<groupId>com.estadistica</groupId>
+    		<artifactId>Estadistica</artifactId>
+    		<version>0.0.1-SNAPSHOT</version>
+    	</dependency>
 	</dependencies>
 
 	<build>
