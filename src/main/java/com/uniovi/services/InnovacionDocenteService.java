@@ -1,5 +1,6 @@
 package com.uniovi.services;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +18,9 @@ public class InnovacionDocenteService {
 
     public List<InnovacionDocente> getAll() {
         return repository.findAll();
+    }
+    public Double getAverageParticipation(LocalDate startDate, LocalDate endDate) {
+        return repository.findAverageParticipation(startDate, endDate);
     }
     public Optional<InnovacionDocente> getById(Long id) {
         return repository.findById(id);
