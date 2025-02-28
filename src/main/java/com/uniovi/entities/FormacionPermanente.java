@@ -5,11 +5,12 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "formacion_permanente")
 public class FormacionPermanente {
-	 @Id
+	 	@Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Long id;
-
+	    @Column(nullable = false)
 	    private LocalDate fecha;
+	    @Column(nullable = false)
 	    private Double porcentajeParticipacion;
 
 	    
