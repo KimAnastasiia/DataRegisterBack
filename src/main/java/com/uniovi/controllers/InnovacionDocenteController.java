@@ -1,6 +1,7 @@
 package com.uniovi.controllers;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -34,10 +35,15 @@ public class InnovacionDocenteController {
 	    }
 	    
 	    @GetMapping("/media/average")
-	    public Double getAverage(@RequestParam String startDate, @RequestParam String endDate) {
+	    public Map<String, Object> getAverage(@RequestParam String startDate, @RequestParam String endDate) {
 	         LocalDate start = LocalDate.parse(startDate);
 	         LocalDate end = LocalDate.parse(endDate);
-	         return Optional.ofNullable(service.getAverageParticipation(start, end)).orElse(0.0);
+	         Double average =  Optional.ofNullable(service.getAverageParticipation(start, end)).orElse(0.0);
+	         
+	         Map<String, Object> response = new HashMap<>();
+	         response.put("mediaDePorcentajesParticipantes", average);
+	         
+	         return response;
 	    }
 	    
 	    @GetMapping("/{id}")
