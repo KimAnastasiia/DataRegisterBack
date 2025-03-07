@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uniovi.entities.InnovacionDocente;
+import com.uniovi.entities.Movilidad;
 import com.uniovi.services.InnovacionDocenteService;
 
 @RestController
@@ -62,8 +64,22 @@ public class InnovacionDocenteController {
 	    }
 
 	    @DeleteMapping("/{id}")
-	    public ResponseEntity<Void> delete(@PathVariable Long id) {
-	        boolean deleted = service.delete(id);
-	        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+	    public ResponseEntity<Map<String, Object>> delete(@PathVariable Long id) {
+	    	
+	    	Map<String, Object> response = new HashMap<>();
+	    	Optional<InnovacionDocente> existingInnovacion = service.getById(id);
+	    	if (existingInnovacion.isPresent()) {
+	    		service.delete(id);
+	            response.put("message", "Innovacion Docente with ID " + id + " deleted successfully.");
+	            response.put("status", HttpStatus.OK.value()); 
+	            return ResponseEntity.ok(response); 
+	         
+	        }
+	    	
+	    
+	    	 	response.put("message", "Innovacion Docente with ID " + id + " not found.");
+		        response.put("status", HttpStatus.NOT_FOUND.value());
+		        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 	    }
+	
 }
